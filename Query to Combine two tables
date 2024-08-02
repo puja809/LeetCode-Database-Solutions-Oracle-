@@ -1,0 +1,6 @@
+/* Write your PL/SQL query statement below */
+--Combine two tables:
+select a.firstname,a.lastname,b.city,b.state 
+from person a, address b
+where a.personID=b.personID(+)
+order by a.firstname;
