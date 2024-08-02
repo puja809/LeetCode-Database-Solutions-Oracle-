@@ -1,0 +1,5 @@
+/* Write your PL/SQL query statement below */
+--Duplicate Email (https://leetcode.com/problems/duplicate-emails/solutions/)
+select Email from(
+select email,count(email) from person
+group by email having count(email)>1);
