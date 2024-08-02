@@ -1,0 +1,5 @@
+/* Write your PL/SQL query statement below */
+--customers-who-never-order(https://leetcode.com/problems/customers-who-never-order/solutions/)
+select name  as Customers from customers where id not in (
+    select customerid from orders
+);
