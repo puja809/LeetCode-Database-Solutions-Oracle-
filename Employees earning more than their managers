@@ -1,0 +1,11 @@
+/* Write your PL/SQL query statement below */
+--Question: Employees earning more than their managers:
+select NAME from (
+with mng as (select id,NAME, salary from employee)
+select emp.name AS NAME,emp.salary as emp_salary,
+mng.NAME as mng_name,
+mng.salary as mng_salary
+from employee emp,mng
+where mng.id=emp.manager_id )
+where EMP_SALARY>MNG_SALARY
+;
