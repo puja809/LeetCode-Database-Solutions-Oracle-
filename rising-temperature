@@ -1,0 +1,12 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/rising-temperature/
+--solution 1
+with prev as(select id, recorddate  as rd, temperature as t from weather)
+select b.id from weather b ,prev
+where trunc(b.recorddate)=trunc(prev.rd)+1
+and b.temperature>prev.t;
+
+--solution 2
+select a.id from weather a join weather b
+on trunc(a.recorddate)=trunc(b.recorddate) + interval '1' day
+and a.temperature>b.temperature;
