@@ -1,0 +1,9 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/delete-duplicate-emails/
+delete from person where id not in(
+select id from(
+select  email,count(email)cnt,min(id) id from person group by email having count(email)>1))
+and
+email not in (
+select  email from person group by email having count(email)=1)
+;
