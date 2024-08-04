@@ -1,0 +1,23 @@
+--https://leetcode.com/problems/employee-bonus/solutions/5586259/employee-bonus-oracle-sql/
+select y.name,y.bonus from(
+select x.name,
+case when x.bonus is null
+then 0
+when x.bonus = 0
+then null
+else x.bonus
+end as bonus
+from
+(select a.name as name,
+case when b.bonus is null
+then 0
+when b.bonus = 0
+then null
+else b.bonus
+end as bonus
+from employee a left outer join bonus b
+on a.empID=b.empID)
+x)y where y.bonus<1000 
+or y.bonus is null
+order by y.bonus,y.name
+;
