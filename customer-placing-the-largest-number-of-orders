@@ -1,0 +1,9 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/customer-placing-the-largest-number-of-orders/submissions/1346765900/
+with counts as(
+select customer_number,count(customer_number) cnt from Orders
+group by customer_number),
+maxim as (select max(cnt) cnt1 from counts)
+select b.customer_number from maxim a,counts b
+where a.cnt1=b.cnt
+;
