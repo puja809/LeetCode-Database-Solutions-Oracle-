@@ -1,0 +1,6 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/classes-more-than-5-students/solutions/
+with cnt as (select count(class) ct,class from courses group by class)
+select unique a.class from courses a, cnt
+where a.class=cnt.class
+and cnt.ct>=5;
