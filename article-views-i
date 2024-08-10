@@ -1,0 +1,9 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/article-views-i/?envType=study-plan-v2&envId=top-sql-50
+WITH VIEWER AS (SELECT VIEWER_ID, AUTHOR_ID FROM VIEWS)
+SELECT UNIQUE A.AUTHOR_ID AS ID FROM VIEWS A, VIEWER B
+WHERE B.VIEWER_ID = A.AUTHOR_ID
+AND B.VIEWER_ID=A.VIEWER_ID
+AND B.AUTHOR_ID=A.AUTHOR_ID
+ORDER BY A.AUTHOR_ID
+;
