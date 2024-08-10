@@ -1,0 +1,7 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/invalid-tweets/
+with lengths as (select tweet_id, length(content) len from tweets)
+select a.tweet_id from tweets a, lengths b
+where a.tweet_id=b.tweet_id
+and b.len>15
+;
