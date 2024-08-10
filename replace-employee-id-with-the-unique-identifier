@@ -1,0 +1,4 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/replace-employee-id-with-the-unique-identifier/
+select b.unique_id,a.name from employees a left outer join employeeUNI b
+on  a.id=b.id;
