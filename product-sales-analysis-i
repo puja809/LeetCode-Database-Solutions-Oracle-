@@ -1,0 +1,5 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/product-sales-analysis-i/
+select a.product_name, b.year, b.price
+from product a, sales b
+where a.product_id=b.product_id;
