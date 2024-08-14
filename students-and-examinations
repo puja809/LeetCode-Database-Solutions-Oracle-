@@ -1,0 +1,16 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/students-and-examinations/
+with cnt as(
+select count(student_id) counts,student_id,subject_name from examinations
+group by student_id,subject_name),
+all_stud as (select a.student_id, a.student_name, b.subject_name from students a cross join subjects b)
+select distinct a.student_id, a.student_name,a.subject_name, 
+case when cnt.counts is null
+then 0
+else
+cnt.counts end as attended_exams
+from all_stud a left join cnt
+on  cnt.student_id=a.student_id
+and cnt.subject_name= a.subject_name
+order by a.student_id,a.subject_name
+;
