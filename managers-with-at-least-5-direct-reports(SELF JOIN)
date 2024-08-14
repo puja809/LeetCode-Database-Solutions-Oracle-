@@ -1,0 +1,8 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/managers-with-at-least-5-direct-reports
+--USING SELF JOIN
+with emp as (select id, name from employee),
+cnt as (select count(managerId) c ,managerID from employee group by managerID)
+select emp.name from emp, cnt
+where emp.ID=cnt.managerID
+and cnt.c>=5;
