@@ -1,0 +1,12 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/confirmation-rate/
+with cnt as (select count(user_id) cntt, user_id from Confirmations group by user_id),
+conf as (select count(user_id) cntc, user_id from Confirmations where action='confirmed'
+group by user_id,action)
+select a.user_id, ROUND(decode(conf.cntc/cnt.cntt,null,0,conf.cntc/cnt.cntt),2)
+CONFIRMATION_RATE
+ from signups a, cnt, conf
+where cnt.user_id(+) = a.user_id
+and conf.user_id(+)=a.user_id
+ORDER BY A.USER_ID DESC
+;
