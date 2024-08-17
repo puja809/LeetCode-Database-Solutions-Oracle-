@@ -1,0 +1,18 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/average-selling-price/
+select distinct prices.product_id, decode(a.average_price,null,0,a.average_price)average_price
+from(
+with total as(
+select distinct a.product_id, a.price, b.units, a.price*b.units as total_price, b.purchase_date
+from prices a, unitssold b
+where b.purchase_date>=a.start_date
+and b.purchase_date<=a.end_date
+and a.product_id=b.product_id),
+cnt as (select sum(units) unit,product_id from unitssold group by product_id),
+sums as (select sum(total.total_price) total_price, total.product_id from total group by total.product_id)
+select distinct
+cnt.product_id, round(sums.total_price/cnt.unit,2) average_price from cnt, sums
+where  cnt.product_id=sums.product_id) a right outer join prices
+on a.product_id=prices.product_id
+order by prices.product_id desc
+;
