@@ -1,0 +1,12 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/queries-quality-and-percentage/
+with count as(select count(query_name) cnt,query_name from queries group by query_name),
+poor as (select count(query_name) cnt,query_name from queries where rating<3 group by query_name),
+quality as (select query_name, sum(rating/position) qua from queries group by query_name)
+select distinct c.query_name, round(c.qua/a.cnt,2) quality, 
+decode(round((b.cnt/a.cnt)*100,2),null,0,round((b.cnt/a.cnt)*100,2)) poor_query_percentage
+from count a, 
+poor b, quality c
+where 
+b.query_name(+)=c.query_name
+and a.query_name=c.query_name;
