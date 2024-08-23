@@ -1,0 +1,6 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/percentage-of-users-attended-a-contest/
+with total as (select count(user_id) cnt from users),
+user_cnt as(select count(user_id) cnt,contest_id from register group by contest_id)
+select a.contest_id, round((a.cnt/b.cnt)*100,2) percentage
+from total b, user_cnt a order by percentage desc, contest_id asc;
