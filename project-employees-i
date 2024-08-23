@@ -1,0 +1,5 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/project-employees-i
+select project_id, round(avg(experience_years),2) average_years from (
+select a.project_id,a.employee_id,b.experience_years from project a, employee b
+where a.employee_id=b.employee_id) group by project_id;
