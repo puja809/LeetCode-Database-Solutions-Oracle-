@@ -1,0 +1,10 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/immediate-food-delivery-ii/
+with mini as(select min(order_date) od,customer_id from delivery
+group by customer_id),
+imm as (select count(b.customer_id) as immediate_percentage from mini a, delivery b 
+where a.od=b.customer_pref_delivery_date
+and b.customer_id=a.customer_id),
+mini_cnt as(select count(a.od) cnt from mini a)
+select round(immediate_percentage/cnt*100,2) as immediate_percentage from mini_cnt,imm
+;
