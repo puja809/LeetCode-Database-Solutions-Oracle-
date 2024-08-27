@@ -1,0 +1,15 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/monthly-transactions-i/
+with total as (
+select to_char(trans_date,'YYYY-MM')month,country,count(nvl(country,'null')) trans_count ,sum(amount) trans_total_amount
+from transactions group by to_char(trans_date,'YYYY-MM'),country)
+,appr as(
+select to_char(trans_date,'YYYY-MM')month,country,count(nvl(country,'null')) approved_count ,sum(amount) approved_total_amount
+from transactions where lower(state)='approved'
+group by to_char(trans_date,'YYYY-MM'),country) 
+select a.month, a.country,a.trans_count,decode(b.approved_count,null,0,b.approved_count) approved_count,
+a.trans_total_amount,decode(b.approved_total_amount,null,0,b.approved_total_amount) approved_total_amount
+from total a left outer join appr b
+on nvl(a.country,'null') = nvl(b.country,'null')
+and a.month = b.month
+;
