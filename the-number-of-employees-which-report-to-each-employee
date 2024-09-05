@@ -1,0 +1,13 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/the-number-of-employees-which-report-to-each-employee/description/
+with manager as (
+    select b.employee_id,b.name,b.age,a.employee_id manager_id
+from employees a, employees b
+where a.employee_id=b.reports_to)
+select a.employee_id,a.name,
+count(b.employee_id) reports_count,round(avg(b.age),0)average_age 
+from employees a,manager b
+where b.manager_id=a.employee_id
+group by b.manager_id,a.employee_id,a.name
+order by a.employee_id
+;
