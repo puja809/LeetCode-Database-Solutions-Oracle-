@@ -1,0 +1,17 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/primary-department-for-each-employee/description/
+with cnt as (select employee_id, count(primary_flag) counts from employee
+group by employee_id)
+,
+dept1 as (select a.employee_id,a.department_id from employee a, cnt b
+where a.employee_id=b.employee_id
+and a.primary_flag='Y' and b.counts<>1
+)
+,
+dept2 as(select a.employee_id,a.department_id from employee a, cnt b
+where a.employee_id=b.employee_id
+and a.primary_flag='N' and b.counts=1
+)
+select employee_id,department_id from dept1
+union all
+select employee_id, department_id from dept2;
