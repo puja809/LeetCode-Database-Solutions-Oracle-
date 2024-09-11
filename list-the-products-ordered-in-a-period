@@ -1,0 +1,8 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/list-the-products-ordered-in-a-period/description/
+select a.product_name,sum(b.unit) unit from products a, orders b
+where a.product_id=b.product_id
+and extract (month from b.order_date) = 02
+and extract (year from b.order_date) = 2020
+group by a.product_name
+having sum(b.unit)>=100;
