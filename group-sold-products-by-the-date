@@ -1,0 +1,10 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/group-sold-products-by-the-date/description/
+with cnt as (select sell_date, count(distinct product)num_sold from activities group by sell_date)
+select to_char(cnt.sell_date,'YYYY-MM-DD')SELL_DATE, cnt.num_sold, listagg(a.product,',') within group (order by a.product)
+as Products
+from (select distinct product,sell_date from activities)a, cnt
+where cnt.sell_date=a.sell_date
+group by cnt.sell_date, cnt.num_sold
+order by cnt.sell_date
+;
