@@ -1,0 +1,6 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/find-users-with-valid-e-mails/
+select user_id, name, mail from users where substr(mail,instr(mail,'@',1,1)) like '@leetcode.com'
+and  regexp_like (mail,'^[a-zA-Z]')
+AND REGEXP_LIKE (MAIL, '[A-Za-z0-9.-_][^#]')
+and not REGEXP_LIKE (MAIL, '[#!#$%^&*()=+]')
