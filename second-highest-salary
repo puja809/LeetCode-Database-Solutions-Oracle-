@@ -1,0 +1,9 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/second-highest-salary/description/
+select distinct salary as SecondHighestSalary from(select salary , dense_rank() over (order by salary desc)as rnk
+from employee )where rnk=2
+union all
+select null from (
+select listagg(rnk,',') within group (order by rnk) as list
+from(select salary , dense_rank() over (order by salary)as rnk
+from employee ) ) where list not like '%,2%'
