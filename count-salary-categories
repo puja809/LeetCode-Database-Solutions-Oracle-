@@ -1,0 +1,17 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/count-salary-categories/description/
+with cat as (select case when income<20000 then 'Low Salary'
+when income>=20000 and income<=50000 then 'Average Salary'
+when income >50000 then 'High Salary'
+end as category
+, account_id, income from accounts)
+,catag as (select  'Low Salary'as category from dual 
+union all
+select  'High Salary'as category from dual 
+union all
+select  'Average Salary'as category from dual 
+)
+select distinct a.category , count(c.category) as accounts_count 
+from cat c right outer join catag a
+on c.category=a.category
+group by a.category;
