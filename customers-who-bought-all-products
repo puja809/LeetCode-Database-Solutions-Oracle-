@@ -1,0 +1,9 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/customers-who-bought-all-products/description/
+select customer_id from (
+select distinct customer_id, listagg(product_key,',') within group (order by Product_key) as Product_key
+from (select distinct customer_id,product_key from customer) 
+group by customer_id)
+where product_key = (select listagg(product_key,',') within group 
+(order by product_key) as product_key from product
+);
