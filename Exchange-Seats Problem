@@ -1,0 +1,15 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/exchange-seats/description/
+with odds as(select id, lead(id) over (order by id) as next_id, student
+from seat )
+,even as (select id, lag(id) over (order by id) as next_id, student
+from seat )
+select odds.id,a.student from odds, seat a
+where a.id=odds.next_id and mod(odds.id,2)<>0
+union
+select even.id,a.student from even, seat a
+where a.id=even.next_id and mod(even.id,2)=0
+union
+select id, student from seat where id in (select max(id) from seat)
+and mod(id,2)<>0
+;
