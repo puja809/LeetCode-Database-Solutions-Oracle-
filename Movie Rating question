@@ -1,0 +1,69 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/movie-rating/description/
+WITH avgs AS (
+    SELECT
+        AVG(rating) rate,
+        movie_id
+    FROM
+        movierating
+    WHERE
+            EXTRACT(MONTH FROM created_at) = 02
+        AND EXTRACT(YEAR FROM created_at) = 2020
+    GROUP BY
+        movie_id
+), cnts AS (
+    SELECT
+        COUNT(user_id) cnt,
+        user_id
+    FROM
+        movierating
+    GROUP BY
+        user_id
+), moviess AS (
+    SELECT
+        a.title
+    FROM
+        movies a,
+        avgs
+    WHERE
+            a.movie_id = avgs.movie_id
+        AND avgs.rate IN (
+            SELECT
+                MAX(rate)
+            FROM
+                avgs
+        )
+    ORDER BY
+        a.title ASC
+), names AS (
+    SELECT
+        a.name
+    FROM
+        users a,
+        cnts
+    WHERE
+            a.user_id = cnts.user_id
+        AND cnts.cnt IN (
+            SELECT
+                MAX(cnt)
+            FROM
+                cnts
+        )
+    ORDER BY
+        a.name ASC
+)
+SELECT
+    title AS results
+FROM
+    moviess
+WHERE
+    ROWNUM = 1
+UNION ALL
+SELECT
+    name AS results
+FROM
+    names
+WHERE
+    ROWNUM = 1
+-- select * from avgs
+    ;
