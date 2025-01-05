@@ -1,0 +1,7 @@
+/* https://leetcode.com/problems/department-top-three-salaries/description/?envType=study-plan-v2&envId=top-sql-50 */
+
+select b.name Department,a.name Employee,a.Salary from(
+select  name, salary, departmentid, dense_rank()over(partition by departmentid order by salary desc) rnk from employee)a,
+department b where a.departmentid=b.id
+and rnk in (1,2,3) order by a.salary desc
+;
