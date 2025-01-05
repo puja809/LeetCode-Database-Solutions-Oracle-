@@ -1,0 +1,11 @@
+/* Write your PL/SQL query statement below */
+--https://leetcode.com/problems/investments-in-2016/description/?envType=study-plan-v2&envId=top-sql-50
+
+select round(sum(tiv_2016),2) as tiv_2016 from(
+select pid,cnt_tiv_15,tiv_2016,count(loc)over(partition by loc) cnt from
+(
+select pid,tiv_2015, count(tiv_2015)over(partition by tiv_2015) cnt_tiv_15,
+lat|| ' ' ||lon loc, tiv_2016
+ from Insurance))
+where cnt_tiv_15>1
+and cnt=1 ;
