@@ -1,0 +1,7 @@
+/* Write your PL/SQL query statement below */
+/*https://leetcode.com/problems/consecutive-numbers/description/?envType=study-plan-v2&envId=top-sql-50*/
+with main as (SELECT ID , NUM, LEAD(NUM)OVER (ORDER BY ID ) num1 ,
+lag(NUM)OVER (ORDER BY ID ) num2
+from logs)
+select distinct num as ConsecutiveNums from main where num=num1
+and num=num2;
