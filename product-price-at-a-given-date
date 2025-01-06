@@ -1,0 +1,24 @@
+/* Write your PL/SQL query statement below */
+/* https://leetcode.com/problems/product-price-at-a-given-date/description/?envType=study-plan-v2&envId=top-sql-50 */
+WITH MAIN AS(SELECT PRODUCT_ID FROM PRODUCTS WHERE CHANGE_DATE = '2019-08-16'
+),
+DST1 AS(select distinct product_id, 
+row_number()over(partition by product_id order by change_date desc) rnk,new_price as price
+from products
+where change_date <'2019-08-16' AND PRODUCT_ID NOT IN (SELECT PRODUCT_ID FROM MAIN)) 
+,
+DST2 AS (SELECT PRODUCT_ID,10 AS PRICE FROM PRODUCTS
+WHERE change_date>'2019-08-16' AND PRODUCT_ID NOT IN (SELECT PRODUCT_ID FROM DST1)
+AND PRODUCT_ID NOT IN (SELECT PRODUCT_ID FROM MAIN)
+)
+
+,DST3 AS (SELECT PRODUCT_ID,NEW_PRICE AS PRICE FROM PRODUCTS
+WHERE change_date='2019-08-16' )
+
+SELECT product_id, price FROM DST1 where rnk = 1
+UNION 
+SELECT product_id, price FROM DST2
+UNION
+SELECT product_id, price FROM DST3
+;
+
